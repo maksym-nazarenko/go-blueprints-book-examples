@@ -28,8 +28,8 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 
 		t.tpl = template.Must(template.ParseFiles(filepath.Join(templatesDir, t.filename)))
-		t.tpl.Execute(w, nil)
 	})
+	t.tpl.Execute(w, nil)
 }
 
 func main() {
