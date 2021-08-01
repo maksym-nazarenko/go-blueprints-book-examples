@@ -6,3 +6,6 @@ build-chat:
 run-chat: build-chat
 	TEMPLATES_DIR=$(PROJECT_ROOT)/cmd/chat/templates \
 		$(PROJECT_ROOT)/cmd/chat/chat
+
+test:
+	@go test ./...
