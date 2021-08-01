@@ -39,14 +39,17 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	addr := flag.String("addr", "127.0.0.1:8080", "The address application listens on")
+	tracingEnabled := flag.Bool("trace", false, "Enable tracing")
+	flag.Parse()
+
 	r := NewRoom()
-	r.tracer = trace.New(os.Stdout)
+	if *tracingEnabled {
+		r.tracer = trace.New(os.Stdout)
+	}
 	http.Handle("/", &templateHandler{filename: "chat.html"})
 	http.Handle("/room", r)
 	go r.run()
-
-	addr := flag.String("addr", "127.0.0.1:8080", "The address application listens on")
-	flag.Parse()
 
 	log.Println("Starting server on ", *addr)
 	if err := http.ListenAndServe(*addr, nil); err != nil {

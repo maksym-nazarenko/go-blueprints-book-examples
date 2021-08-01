@@ -7,5 +7,9 @@ run-chat: build-chat
 	TEMPLATES_DIR=$(PROJECT_ROOT)/cmd/chat/templates \
 		$(PROJECT_ROOT)/cmd/chat/chat
 
+run-chat-trace: build-chat
+	TEMPLATES_DIR=$(PROJECT_ROOT)/cmd/chat/templates \
+		$(PROJECT_ROOT)/cmd/chat/chat -trace
+
 test:
 	@go test ./...
