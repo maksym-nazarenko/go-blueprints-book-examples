@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"sync"
 	"text/template"
+
+	"github.com/maxim-nazarenko/go-blueprints-book-examples/trace"
 )
 
 const (
@@ -38,6 +40,7 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := NewRoom()
+	r.tracer = trace.New(os.Stdout)
 	http.Handle("/", &templateHandler{filename: "chat.html"})
 	http.Handle("/room", r)
 	go r.run()
