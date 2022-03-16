@@ -64,12 +64,12 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, fmt.Sprintf("Error when trying to get user from %s: %s", provider, err), http.StatusInternalServerError)
 			return
 		}
-		authCoockieValue := objx.New(map[string]interface{}{
+		authCookieValue := objx.New(map[string]interface{}{
 			"name": user.Name(),
 		}).MustBase64()
 		http.SetCookie(w, &http.Cookie{
 			Name:  "auth",
-			Value: authCoockieValue,
+			Value: authCookieValue,
 			Path:  "/",
 		})
 		w.Header().Set("Location", "/chat")

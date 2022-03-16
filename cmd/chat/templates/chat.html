@@ -35,7 +35,11 @@
                     alert("Error: There is no socket connection.");
                     return false;
                 }
-                socket.send(msgBox.val());
+                socket.send(
+                    JSON.stringify(
+                        {"Message": msgBox.val()}
+                    )
+                );
                 msgBox.val("");
                 return false;
             });
@@ -49,7 +53,14 @@
                 }
 
                 socket.onmessage = function (e) {
-                    messages.append($("<li>").text(e.data));
+                    var msg = JSON.parse(e.data);
+                    console.log("got message: " + msg.Message + " from " + msg.Name)
+                    messages.append(
+                        $("<li>").append(
+                            $("<strong>").text(msg.Name + ": "),
+                            $("<span>").text(msg.Message)
+                        )
+                    );
                 }
             }
         })
