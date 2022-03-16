@@ -13,6 +13,7 @@ import (
 	"github.com/stretchr/gomniauth"
 	"github.com/stretchr/gomniauth/providers/github"
 	"github.com/stretchr/gomniauth/providers/google"
+	"github.com/stretchr/objx"
 )
 
 const (
@@ -35,7 +36,13 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		t.tpl = template.Must(template.ParseFiles(filepath.Join(templatesDir, t.filename)))
 	})
-	err := t.tpl.Execute(w, r)
+	data := map[string]interface{}{
+		"Host": r.Host,
+	}
+	if authCookie, err := r.Cookie("auth"); err == nil {
+		data["UserData"] = objx.MustFromBase64(authCookie.Value)
+	}
+	err := t.tpl.Execute(w, data)
 	if err != nil {
 		log.Println("ERROR: " + err.Error())
 	}
