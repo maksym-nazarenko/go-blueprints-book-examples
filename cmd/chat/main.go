@@ -10,6 +10,9 @@ import (
 	"text/template"
 
 	"github.com/maxim-nazarenko/go-blueprints-book-examples/trace"
+	"github.com/stretchr/gomniauth"
+	"github.com/stretchr/gomniauth/providers/github"
+	"github.com/stretchr/gomniauth/providers/google"
 )
 
 const (
@@ -42,6 +45,12 @@ func main() {
 	addr := flag.String("addr", "127.0.0.1:8080", "The address application listens on")
 	tracingEnabled := flag.Bool("trace", false, "Enable tracing")
 	flag.Parse()
+
+	gomniauth.SetSecurityKey("some secret string here")
+	gomniauth.WithProviders(
+		github.New("abc3d1f9df5e9712ef6b", os.Getenv("GITHUB_OAUTH2_SECRET"), "http://"+*addr+"/auth/callback/github"),
+		google.New("google client", "google secret", "http://"+*addr+"/auth/callback/goole"),
+	)
 
 	r := NewRoom()
 	if *tracingEnabled {
