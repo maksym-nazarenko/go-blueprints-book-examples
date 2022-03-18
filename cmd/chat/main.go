@@ -58,8 +58,8 @@ func main() {
 		github.New("abc3d1f9df5e9712ef6b", os.Getenv("GITHUB_OAUTH2_SECRET"), "http://"+*addr+"/auth/callback/github"),
 		google.New("google client", "google secret", "http://"+*addr+"/auth/callback/goole"),
 	)
-
-	r := NewRoom(&UseAuthAvatar)
+	avatarProvider := &UseGravatar
+	r := NewRoom(avatarProvider)
 	if *tracingEnabled {
 		r.tracer = trace.New(os.Stdout)
 	}
