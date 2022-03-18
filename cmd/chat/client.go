@@ -30,9 +30,7 @@ func (c *client) read() {
 			name = nameIntf.(string)
 		}
 		msg.Name = name
-		if avatarURL, ok := c.userData["avatar_url"]; ok {
-			msg.AvatarURL = avatarURL.(string)
-		}
+		msg.AvatarURL, _ = c.room.avatar.GetAvatarURL(c)
 
 		c.room.forward <- msg
 	}

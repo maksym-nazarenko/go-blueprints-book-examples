@@ -59,7 +59,7 @@ func main() {
 		google.New("google client", "google secret", "http://"+*addr+"/auth/callback/goole"),
 	)
 
-	r := NewRoom()
+	r := NewRoom(&UseAuthAvatar)
 	if *tracingEnabled {
 		r.tracer = trace.New(os.Stdout)
 	}
